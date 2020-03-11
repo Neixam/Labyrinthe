@@ -1,3 +1,5 @@
+CC		=	colorgcc
+
 NAME	=	labyrinthe
 
 SRC		=	src/
@@ -8,20 +10,21 @@ CNT		=	$(SRC)main.c		\
 
 HEADER	=	includes/
 
-FLAGS	=	-Wall		\
+CFLAGS	=	-Wall		\
 			-ansi		\
 			-pedantic	\
-			-lMLV		\
+
+LDFLAGS	=	-lMLV		\
 
 OBJ		=	$(CNT:.c=.o)
 
 all 	:	$(NAME)
 
 $(NAME)	:	$(OBJ)
-	gcc $(FLAGS) -o $^ -I $(HEADER)
+	gcc $(CFLAGS) -o $^ $(LDFLAGS)
 
 %.o		:	%.c
-	gcc $(FLAGS) -o $@ -c $^ -I $(HEADER)
+	gcc $(CFLAGS) -o $@ -c $^ -I $(HEADER)
 
 clean	:
 	/bin/rm -rf $(OBJ)
