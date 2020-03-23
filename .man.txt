@@ -1,0 +1,11 @@
+Le programme ./labyrinthe est un générateur de labyrinthe qui possède les options suivantes :
+
+--acces                     Le labyrinthe est créer de manière à que chaque case soit dans la même classe
+--attente=N                 Pose une attente de N millisecondes entre chaque modification du labyrinthe lors de sa génération
+                            (par défaut 0)
+--help                      Affiche l'aide du programme puis s'arrête immédiatement
+--graine=X                  Génère un arbre avec la graine X (par défaut le temps en seconde depuis 1970)
+--mode=MODE                 Détermine le mode d'affichage MODE peut être soit 'graphique' soit 'texte' (par défaut 'graphique')
+--taille=hxl                Crée un labyrinthe de hauteur 'h' et de largeur 'l' (par défaut 'h' = 6 et 'l' = 8)
+--unique                    Génére que des chemins qui ne se rencontre pas
+--victor                    Affiche le chemin victorieux le plus court

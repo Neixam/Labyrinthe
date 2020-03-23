@@ -1,37 +1,61 @@
-CC		=	colorgcc
+violet			=	\033[0;35m
+cyan			=	\033[0;36m
+vert			=	\033[0;32m
+neutre			=	\033[0m
+rouge			=	\033[31m
 
-NAME	=	labyrinthe
+CC				=	gcc
 
-SRC		=	src/
+CFLAGS			=	-Wall		\
+					-ansi		\
+					-pedantic	\
 
-CNT		=	$(SRC)main.c		\
-			$(SRC)parseur.c		\
-			$(SRC)affiche_err	\
+#LDFLAGS			=	-lMLV		\
 
-HEADER	=	includes/
+EXEC			=	labyrinthe
 
-CFLAGS	=	-Wall		\
-			-ansi		\
-			-pedantic	\
+SRC				=	main.c			\
+					init.c			\
+					parseur.c		\
+					genere.c		\
+					affiche_ascii.c	\
+					affiche_err.c	\
+					alea.c			\
 
-LDFLAGS	=	-lMLV		\
+HEADER			=	$(shell find includes -type f)
 
-OBJ		=	$(CNT:.c=.o)
+INC_PATH		=	$(shell find includes -type d)
 
-all 	:	$(NAME)
+OBJ_PATH		=	obj/
+	
+OBJ				=	$(addprefix $(OBJ_PATH), $(SRC:.c=.o))
 
-$(NAME)	:	$(OBJ)
-	gcc $(CFLAGS) -o $^ $(LDFLAGS)
+SRC_PATH		=	$(shell find src -type d)
 
-%.o		:	%.c
-	gcc $(CFLAGS) -o $@ -c $^ -I $(HEADER)
+vpath %.c $(foreach rep, $(SRC_PATH), $(rep):)
 
-clean	:
-	/bin/rm -rf $(OBJ)
+all 			:	$(EXEC)
 
-bclean	:
-	/bin/rm -rf $(NAME)
+$(EXEC)			:	$(OBJ)
+	@echo "${violet}Compilation $@ ...${neutre}\c"
+	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	@echo " ${vert}FIN${neutre}"
 
-fclean	:	clean bclean
+$(OBJ_PATH)%.o	:	%.c $(HEADER)
+	@echo "${cyan}Compilation $@ ...${neutre}\c"
+	@$(CC) -o $@ -c $< $(CFLAGS) -I $(INC_PATH)
+	@echo " ${vert}FIN${neutre}"
 
-re		:	fclean all
+clean			:
+	@echo "${rouge}Suppression des objets...${neutre}"
+	@/bin/rm -rf $(OBJ)
+	@echo "${vert}FIN${neutre}"
+
+bclean			:
+	@echo "${rouge}Suppression de l'exécutable...${neutre}"
+	@/bin/rm -rf $(EXEC)
+	@echo "${vert}FIN${neutre}"
+
+fclean			:	clean bclean
+
+re				:	fclean all
