@@ -7,5 +7,5 @@ Le programme ./labyrinthe est un générateur de labyrinthe qui possède les opt
 --graine=X                  Génère un arbre avec la graine X (par défaut le temps en seconde depuis 1970)
 --mode=MODE                 Détermine le mode d'affichage MODE peut être soit 'graphique' soit 'texte' (par défaut 'graphique')
 --taille=hxl                Crée un labyrinthe de hauteur 'h' et de largeur 'l' (par défaut 'h' = 6 et 'l' = 8)
---unique                    Génére que des chemins qui ne se rencontre pas
---victor                    Affiche le chemin victorieux le plus court
+--unique                    Génére que des chemins qui ne se rencontre pas (non implémenter)
+--victor                    Affiche le chemin victorieux le plus court (non implémenter)

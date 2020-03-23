@@ -29,7 +29,7 @@ void    fusion(laby_t *lab, coord_t c1, coord_t c2)
         return ;
     if (diff < 0)
     {
-        lab->cases[pere_c1.y][pere_c1.x].rang += lab->cases[c2.y][c2.x].rang;
+        lab->cases[pere_c1.y][pere_c1.x].rang += lab->cases[pere_c2.y][pere_c2.x].rang;
         lab->cases[c2.y][c2.x].pere = copycoord(pere_c1);
         for (i = 0; i < lab->taille.y; i++)
             for (j = 0; j < lab->taille.x; j++)
@@ -38,7 +38,7 @@ void    fusion(laby_t *lab, coord_t c1, coord_t c2)
     }
     else
     {
-        lab->cases[pere_c2.y][pere_c2.x].rang += lab->cases[c1.y][c1.x].rang;
+        lab->cases[pere_c2.y][pere_c2.x].rang += lab->cases[pere_c1.y][pere_c1.x].rang;
         lab->cases[c1.y][c1.x].pere = copycoord(pere_c2);
         for (i = 0; i < lab->taille.y; i++)
             for (j = 0; j < lab->taille.x; j++)
@@ -47,7 +47,9 @@ void    fusion(laby_t *lab, coord_t c1, coord_t c2)
     }
 }
 
-void    alea_mur(lst_case_t *dispos, int *size, laby_t *lab)
+
+
+void    alea_mur(lst_case_t *dispos, int *size, laby_t *lab, int opt)
 {
     int         pos;
     int         i;
@@ -61,7 +63,7 @@ void    alea_mur(lst_case_t *dispos, int *size, laby_t *lab)
     tmp = *dispos;
     if (pos == 0)
     {
-        if ((*dispos)->dispo->mur_est % 2 == 0)
+        if ((*dispos)->dispo->mur_est % 2 == 0) 
         {
             (*dispos)->dispo->mur_sud = 0;
             d_b = 0;
@@ -87,8 +89,8 @@ void    alea_mur(lst_case_t *dispos, int *size, laby_t *lab)
         x = (*dispos)->lui.x + ((d_b) ? 1 : 0);
         y = (*dispos)->lui.y + ((d_b) ? 0 : 1);
         fusion(lab, (*dispos)->lui, init_coord(x, y));
-        if ((*dispos)->dispo->mur_est % 2 == 0 &&
-            (*dispos)->dispo->mur_sud % 2 == 0)
+        if (((*dispos)->dispo->mur_est % 2 == 0 &&
+            (*dispos)->dispo->mur_sud % 2 == 0)) 
         {
             *dispos = (*dispos)->next;
             free(tmp);
@@ -125,8 +127,8 @@ void    alea_mur(lst_case_t *dispos, int *size, laby_t *lab)
         x = (*dispos)->next->lui.x + ((d_b) ? 1 : 0);
         y = (*dispos)->next->lui.y + ((d_b) ? 0 : 1);
         fusion(lab, (*dispos)->next->lui, init_coord(x, y));
-        if ((*dispos)->next->dispo->mur_est % 2 == 0 &&
-            (*dispos)->next->dispo->mur_sud % 2 == 0)
+        if (((*dispos)->next->dispo->mur_est % 2 == 0 &&
+            (*dispos)->next->dispo->mur_sud % 2 == 0))
         {
             tmp2 = (*dispos)->next;
             (*dispos)->next = tmp2->next;

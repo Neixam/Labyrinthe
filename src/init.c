@@ -12,13 +12,14 @@ case_t  init_case(int mur_est, int mur_sud, int x, int y)
     return (ret);
 }
 
-int     init_lab(laby_t *lab, int x, int y)
+int     init_lab(laby_t *lab, lst_case_t *lst, int *size, int x, int y)
 {
     int     i;
     int     j;
 
     lab->taille.x = x;
     lab->taille.y = y;
+    *size = 0;
     if (!(lab->cases = (case_t**)malloc(sizeof(case_t*) * (y))))
         return (1);
     for (i = 0; i < lab->taille.y; i++)
@@ -30,11 +31,18 @@ int     init_lab(laby_t *lab, int x, int y)
             if (i + 1 == y && j + 1 == x)
                 lab->cases[i][j] = init_case(-2, 2, j, i);
             else if (j + 1 == x)
-                lab->cases[i][j] = init_case(2, 2, j, i);
+                lab->cases[i][j] = init_case(2, 1, j, i);
             else if (i + 1 == y)
                 lab->cases[i][j] = init_case(1, 2, j, i);
             else
                 lab->cases[i][j] = init_case(1, 1, j, i);
+            if (lab->cases[i][j].mur_est == 1 ||
+                lab->cases[i][j].mur_sud == 1)
+            {
+                if (ajout_en_tete(lst, &(lab->cases[i][j]), j, i))
+                    return (1);
+                (*size)++;
+            }
         }
     }
     return (0);

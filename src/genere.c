@@ -24,28 +24,6 @@ int         ajout_en_tete(lst_case_t *lst, case_t *addr_case, int x, int y)
     return (0);
 }
 
-int         creation_lst(lst_case_t *lst, laby_t *lab)
-{
-    int     i;
-    int     j;
-    int     size;
-
-    size = 0;
-    for (i = 0; i < lab->taille.y; i++)
-    {
-        for (j = 0; j < lab->taille.x; j++)
-        {
-            if (lab->cases[i][j].mur_est == 1 || lab->cases[i][j].mur_sud == 1)
-            {
-                if (ajout_en_tete(lst, &(lab->cases[i][j]), j, i))
-                    return (0);
-                size++;
-            }
-        }
-    }
-    return (size);
-}
-
 int        coordcmp(coord_t c1, coord_t c2)
 {
     if (c1.x == c2.x && c1.y == c2.y)
@@ -65,32 +43,20 @@ coord_t     init_coord(int x, int y)
 }
 int         genere_laby(lab_t *data)
 {
-    lst_case_t  case_dispo;
     coord_t     origin;
-    int         size;
 
-    case_dispo = NULL;
-    if (!(size = creation_lst(&case_dispo, &(data->lab))))
-    {
-        data->error_val = 2;
-        return (1);
-    }
     origin = init_coord(0, 0);
-    if (data->opt & 64 && data->wait)
+    while (coordcmp(trouve(&data->lab, data->lab.cases[data->lab.taille.y - 1][data->lab.taille.x - 1].pere), origin) ||
+           (data->opt & 4 && data->lab.cases[0][0].rang < data->lab.taille.x * data->lab.taille.y))
     {
-        (void)affiche_laby(*data);
-        printf("\n");
-        usleep(data->wait);
-    }
-    while (coordcmp(data->lab.cases[data->lab.taille.y - 1][data->lab.taille.x - 1].pere, origin))
-    {
-        alea_mur(&case_dispo, &size, &(data->lab));
         if (data->opt & 64 && data->wait)
         {
-            (void)affiche_laby(*data);
-            printf("\n");
+            (void)affiche_laby(*data, 0);
+            if (data->opt & 32)
+                printf("\n");
             usleep(data->wait);
         }
+        alea_mur(&(data->dispo), &(data->len), &(data->lab), data->opt);
     }
     return (0);
 }

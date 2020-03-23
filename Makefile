@@ -10,7 +10,7 @@ CFLAGS			=	-Wall		\
 					-ansi		\
 					-pedantic	\
 
-#LDFLAGS			=	-lMLV		\
+LDFLAGS			=	-lMLV		\
 
 EXEC			=	labyrinthe
 
